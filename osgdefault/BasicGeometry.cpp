@@ -44,7 +44,7 @@ class Widget : public osg::Node {
 
 		// OSG Utils
 		ref_ptr<osg::Geode> widgetGeode;
-		ref_ptr<osg::Geode> widgetGeodeSimp;
+		//ref_ptr<osg::Geode> widgetGeodeSimp;
 		ref_ptr<osg::Geometry> widgetGeometry;
 		ref_ptr<osg::PositionAttitudeTransform> widgetXForm;
 		ref_ptr<osgText::Text> texto;
@@ -55,7 +55,7 @@ class Widget : public osg::Node {
 			numeroHijos=0;
 			// OSG Utils
 			widgetGeode= new osg::Geode();
-			widgetGeodeSimp= new osg::Geode();
+//			widgetGeodeSimp= new osg::Geode();
 			widgetXForm= new osg::PositionAttitudeTransform();
 			texto = new osgText::Text();
 			widgetXForm->addChild(widgetGeode);
@@ -231,6 +231,7 @@ class Nodo :public osg::Node{
 			zoomIN = new LOD();
 			widgetXForm= new osg::PositionAttitudeTransform();
 			zoomOUT=widgetResumen;
+			hijos=widgetHijos;
 			//WidgetFactory::
 			anadirHijo(widgetResumen, zoomOUT,grupo);
 			//std::vector<ref_ptr<Widget>>::iterator v = widgetHijos.begin();			
@@ -242,14 +243,13 @@ class Nodo :public osg::Node{
 				Nodo* nodo=dynamic_cast <Nodo*>(v->get());
 				Widget* widget=dynamic_cast <Widget*>(v->get());
 				if (widget==0){
-					//Es NODO
-					//osg::Widget widget=
-					//anadirHijo(widgetResumen, v->get(),grupo);
+					//Es NODO					
+					anadirHijo(widgetResumen, nodo,grupo);
 					//hijos.push_back(v->get());
 				}else if(nodo==0){
 					//es Widget
 					anadirHijo(widgetResumen, widget,grupo);
-					hijos.push_back(v->get());
+					//hijos.push_back(v->get());
 				}
 				v++;
 			}
@@ -262,7 +262,7 @@ class Nodo :public osg::Node{
 				v++;
 			}*/
 			zoomIN->addChild( grupo, 0.0f, distanciaDetalle );
-			//zoomIN->addChild( zoomOUT->getWidget() ,distanciaDetalle, FLT_MAX );
+			zoomIN->addChild( zoomOUT->getWidget() ,distanciaDetalle, FLT_MAX );
 			cambiarPosicion();
 			
 			widgetXForm->addChild(zoomIN);
@@ -304,31 +304,36 @@ class Nodo :public osg::Node{
 		
 
 
-		void static anadirHijo( ref_ptr<Widget> padre, ref_ptr<Widget> hijo,ref_ptr<osg::Group> grupo){
+		void static anadirHijo( ref_ptr<Widget> padre, ref_ptr<osg::Node> hijo,ref_ptr<osg::Group> grupo){
 			
 			 osg::BoundingSphere boundingSpherePadre=padre->getWidget()->getBound();
 			 osg::Vec3f centroPadre =boundingSpherePadre.center();
-			 osg::BoundingSphere boundingSphereHijo=hijo->getWidget()->getBound();
+
+			 Nodo* nodo=dynamic_cast <Nodo*>(hijo.get());
+			 Widget* widget=dynamic_cast <Widget*>(hijo.get());
+			 
+			 osg::BoundingSphere boundingSphereHijo;
+				 if(nodo==0){
+					 boundingSphereHijo=widget->getWidget()->getBound();
+					  grupo->addChild(widget->getWidget());
+				 }else if(widget==0){
+					 boundingSphereHijo=nodo->zoomIN->getChild(0)->getBound();
+					 grupo->addChild(nodo->getNodo());
+				 }
 			 osg::Vec3f centroHijo=boundingSphereHijo.center();			
-			/* std::cout <<centroPadre.x()<<std::endl;
-			 std::cout <<centroPadre.y()<<std::endl;
-			 std::cout <<centroPadre.z()<<std::endl;
-			  std::cout <<centroHijo.x()<<std::endl;
-			 std::cout <<centroHijo.y()<<std::endl;
-			 std::cout <<centroHijo.z()<<std::endl;*/
-			// osg::Vec3f nuevoCentroPadre =new ()
+			
 
 			 ref_ptr<Widget> arco= new Arco(centroPadre,centroHijo);
 			 padre->numeroHijos++;
 			 grupo->addChild(arco->getWidget());
 			// grupo->addChild(padre->getWidget());
-			 grupo->addChild(hijo->getWidget());
+			
 			 //grupo->addChild(padre->widgetGeodeSimp); no me acuerdo para que lo puse
 			 
 		}
 
 		
-		void static anadirNodoHijo( ref_ptr<Widget> padre, ref_ptr<LOD> hijo,ref_ptr<osg::Group> grupo){
+	/*	void static anadirNodoHijo( ref_ptr<Widget> padre, ref_ptr<LOD> hijo,ref_ptr<osg::Group> grupo){
 			
 			 osg::BoundingSphere boundingSpherePadre=padre->getWidget()->getBound();
 			 osg::Vec3f centroPadre =boundingSpherePadre.center();
@@ -340,7 +345,7 @@ class Nodo :public osg::Node{
 			  std::cout <<centroHijo.x()<<std::endl;
 			 std::cout <<centroHijo.y()<<std::endl;
 			 std::cout <<centroHijo.z()<<std::endl;
-			// osg::Vec3f nuevoCentroPadre =new ()*/
+			// osg::Vec3f nuevoCentroPadre =new ()* /
 
 			 ref_ptr<Widget> arco= new Arco(centroPadre,centroHijo);
 			// padre->numeroHijos++;
@@ -349,7 +354,7 @@ class Nodo :public osg::Node{
 			 grupo->addChild(hijo);
 			// grupo->addChild(padre->widgetGeodeSimp);
 			 
-		}
+		}*/
 };
 
 /*
@@ -394,19 +399,20 @@ int main()
 	elemento33->cambiarPosicion(-10,-7,-5);
 
 	std::vector<ref_ptr<osg::Node>> hijos3;
-	std::vector<ref_ptr<Nodo>> hijos;
+	std::vector<ref_ptr<osg::Node>> hijos;
 	
 	hijos3.push_back(elemento31);
 	hijos3.push_back(elemento32);
 	hijos3.push_back(elemento33);
 	ref_ptr<Nodo> grupoProcariontas=new Nodo(elemento3,hijos3,20.0f,0);
-	//hijos.push_back(grupoProcariontas);	
-	//ref_ptr<Nodo> nodoraiz=new Nodo(elemento,hijos,30.0f, 1);
+	hijos.push_back(grupoProcariontas);	
+	hijos.push_back(elemento2);	
+	ref_ptr<Nodo> nodoraiz=new Nodo(elemento,hijos,30.0f, 1);
 
 //	root->addChild(plano->getWidget());
-	root->addChild(grupoProcariontas->getNodo());
-	root->addChild(elemento3->getWidget());
-//	root->addChild(nodoraiz->getNodo());
+//	root->addChild(grupoProcariontas->getNodo());
+	root->addChild(elemento->getWidget());
+	root->addChild(nodoraiz->getNodo());
 
 	/*hijos.push_back(elemento2);
 	hijos.push_back(elemento3);

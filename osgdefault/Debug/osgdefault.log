@@ -1,4 +1,4 @@
-﻿Build started 07/06/2014 12:49:20.
+﻿Build started 07/06/2014 13:50:11.
      1>Project "C:\Users\Roger\Documents\Visual Studio 2010\Projects\osgdefault\osgdefault\osgdefault.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\osgdefault.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -20,4 +20,4 @@
 
 Compilación correcta.
 
-Time Elapsed 00:00:30.28
+Time Elapsed 00:00:29.14
