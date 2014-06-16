@@ -1,11 +1,12 @@
 #pragma once
 #include "widget.h"
 #include <osg/ShapeDrawable>
+
 class Esfera :
 	public Widget
 {
 public:
-	Esfera(std::string nombre, int x=0, int y=0, int z=0, int radio=1);
+	Esfera(std::string nombre,int x=0, int y=0, int z=0, int radio=1 ,bool transparente=true, float valorTransparencia=0.5);
 	~Esfera(void);
 	
 	osg::ref_ptr<osg::ShapeDrawable> unitSphereDrawable;

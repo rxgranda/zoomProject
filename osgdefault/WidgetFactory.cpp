@@ -4,14 +4,14 @@ osg::ref_ptr<Widget> WidgetFactory::nuevoWidget(std::string nombre,osg::Vec4 par
 		osg::ref_ptr<Widget> elemento;
 		switch (tipo)
 		{
-		case 1:
+		case ESFERA:
 
 			elemento=new Esfera(nombre,parametros[0],parametros[1],parametros[2],parametros[3]);
 			break;
-		case 2:
+		case ARCO:
 			elemento=new Arco;
 			break;
-		case 3:
+		case PLANO:
 			elemento=new Plano(parametros[0]);
 			break;
 		default:

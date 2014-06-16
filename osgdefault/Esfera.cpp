@@ -1,14 +1,23 @@
 #include "Esfera.h"
 
-int Esfera::renderOrder=20;
+int Esfera::renderOrder=20000;
 
-Esfera::Esfera(std::string nombre, int x, int y, int z, int radio):Widget(nombre){		
+Esfera::Esfera(std::string nombre, int x, int y, int z, int radio, bool transparente, float valorTransparencia):Widget(nombre){		
 	unitSphere = new osg::Sphere( osg::Vec3(x,y,z), radio);
 	unitSphereDrawable = new osg::ShapeDrawable(unitSphere);
+	osg::ref_ptr<osg::Cylinder> cilindro = new osg::Cylinder( osg::Vec3(x,y,z), radio, 5.0f);
+	osg::ref_ptr<osg::ShapeDrawable> cilindroDrawable = new osg::ShapeDrawable(cilindro);
 	widgetGeode->addDrawable(unitSphereDrawable);
+	widgetGeode->addDrawable(cilindroDrawable);
 	// color=new osg::Vec4f(1.0f,1.0f,1.0f,1.0f);
-	unitSphereDrawable->setColor(osg::Vec4(0.3843f,0.39245f,0.5412f,0.50f));
-	transparencia();
+	cilindroDrawable->setColor(osg::Vec4(1,1,1,1));
+	
+	if(transparente){
+		transparencia();
+		unitSphereDrawable->setColor(osg::Vec4(0.3843f,0.39245f,0.5412f,valorTransparencia));
+	}else{
+		unitSphereDrawable->setColor(osg::Vec4(0.3843f,0.39245f,0.5412f,1));
+	}
 	setText(nombre);
 }
 
