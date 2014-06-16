@@ -68,9 +68,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BasicGeometry.cpp" />
-    <ClCompile Include="test.cpp" />
-    <ClCompile Include="test2.cpp" />
+    <ClCompile Include="Arco.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Esfera.cpp" />
+    <ClCompile Include="Nodo.cpp" />
+    <ClCompile Include="Plano.cpp" />
+    <ClCompile Include="Widget.cpp" />
+    <ClCompile Include="WidgetFactory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Arco.h" />
+    <ClInclude Include="Esfera.h" />
+    <ClInclude Include="Nodo.h" />
+    <ClInclude Include="Plano.h" />
+    <ClInclude Include="Widget.h" />
+    <ClInclude Include="WidgetFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
