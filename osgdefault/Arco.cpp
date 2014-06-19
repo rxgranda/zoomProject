@@ -33,7 +33,20 @@ Arco::Arco(int x, int y, int z, int radio):Widget(""){
 	widgetGeode->removeDrawable(texto);				
 }
 	
+void Arco::cambiarTransparencia(float transparencia){	
+}
 
+osg::Vec3f Arco::getBorde(){
+		return 	osg::Vec3f(0,0,0);
+}
+
+osg::ref_ptr<Widget> Arco::clone(){
+	return new Arco(*this);
+}
+
+osg::ref_ptr< osg::Node> Arco::getWidget(){
+		return this->widgetXForm;
+	}
 Arco::~Arco(void)
 {
 }

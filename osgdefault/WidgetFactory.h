@@ -5,6 +5,11 @@
 #include "Arco.h"
 #include "Plano.h"
 
+#define ESFERA 1001
+#define ARCO 1002
+#define PLANO 1003
+
+
 class WidgetFactory
 {
 public:

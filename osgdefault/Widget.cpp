@@ -1,4 +1,4 @@
-#include "Widget.h"
+/*#include "Widget.h"
 
 
 Widget::~Widget(void)
@@ -27,6 +27,9 @@ osg::ref_ptr<osg::Node> Widget::getWidget(){
 	return this->widgetXForm;
 }
 
+void Widget::cambiarTransparencia(float transparencia){	
+}
+
 
 void Widget::cambiarPosicion(int x ,int  y ,int z){
 	widgetXForm->setPosition(osg::Vec3(x,y,z));
@@ -34,4 +37,6 @@ void Widget::cambiarPosicion(int x ,int  y ,int z){
 
 osg::Vec3f Widget::getBorde(){				
 	return 	osg::Vec3f(0,0,0);
-}		
+}
+
+virtual osg::ref_ptr<Widget> clone() const=0*/

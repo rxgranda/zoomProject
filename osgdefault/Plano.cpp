@@ -12,10 +12,10 @@ Plano::Plano(int opt):Widget(""){
 	}; 
 	osg::Vec3 myCoords2[] =
 	{
-		osg::Vec3(1000, 0,1000),
-		osg::Vec3(-1000,0, 1000),
-		osg::Vec3(-1000,0, -1000),
-		osg::Vec3(1000, 0, -1000),           
+		osg::Vec3(10000, 0,10000),
+		osg::Vec3(-10000,0, 10000),
+		osg::Vec3(-10000,0, -10000),
+		osg::Vec3(10000, 0, -10000),           
 	}; 
 	int numCoords = sizeof(myCoords)/sizeof(osg::Vec3);      
 	osg::ref_ptr<osg::Vec3Array> vertices;
@@ -38,7 +38,28 @@ Plano::Plano(int opt):Widget(""){
 	widgetGeometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS,0,numCoords));                       
 	widgetGeode->addDrawable(widgetGeometry);    
 	widgetGeode->removeDrawable(texto);
+	//desactivar sombra al plano
+		osg::ref_ptr<osg::StateSet> stateText  = widgetGeode->getOrCreateStateSet(); 
+		stateText->setMode(GL_LIGHTING, osg::StateAttribute::OFF);// To disable shadows in text
+		stateText->setAttribute(new osg::Program(),osg::StateAttribute::PROTECTED);// To disable shadows in text
+		widgetGeode->setStateSet(stateText);	
+
 }
+
+void Plano::cambiarTransparencia(float transparencia){	
+}
+
+osg::Vec3f Plano::getBorde(){
+		return 	osg::Vec3f(0,0,0);
+}
+
+osg::ref_ptr<Widget> Plano::clone(){
+	return new Plano(*this);
+}
+
+osg::ref_ptr< osg::Node> Plano::getWidget(){
+		return this->widgetXForm;
+	}
 
 Plano::~Plano(void)
 {

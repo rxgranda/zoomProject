@@ -1,6 +1,6 @@
 #pragma once
 #include"WidgetFactory.h"
-#include <osg/LOD>
+
 
 class Nodo :
 	public osg::Node
