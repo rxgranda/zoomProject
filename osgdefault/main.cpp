@@ -1,4 +1,8 @@
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include<iostream>
+#include <string>
 #include <osg/Texture2D>
 #include <osgDB/ReadFile> 
 #include <osgViewer/Viewer>
@@ -18,10 +22,117 @@ using namespace osgDB;
 using namespace osgUtil;
 using namespace osgViewer;
 
+std::string filename="datos.txt";
 
 
-void leerXml(std::string fileName){
+void leerXml(){
 	//  leer archivo xml
+
+	std::string line;
+	int lineNumber=1;
+	std::ifstream stream (filename);
+	if (stream.is_open())
+	{
+		try{
+			while (stream.good())
+			{
+				std::getline(stream,line);
+				if (line.compare(0,1,"#") == 0){
+					lineNumber++;
+					continue;
+					
+				}
+				if(line.empty()){
+					lineNumber++;
+					continue;
+				}
+				//std::cout << line << std::endl;				
+				std::string delimiter = ";;";
+				std::size_t pos = 0;
+				std::string token;
+				std::vector<std::string> info;
+				while ((pos = line.find(delimiter)) != std::string::npos) {
+					token = line.substr(0, pos);
+					//std::cout << token << std::endl;
+					info.push_back(token);
+					line.erase(0, pos + delimiter.length());
+				}
+				info.push_back(line);//ultimo token encontrado
+				//std::cout << line+":P" << std::endl;
+				std::cout << info.at(0)+" " <<info.at(1)+" " <<info.at(2)+" " <<info.at(3)+" " <<info.at(4)+" "<< std::endl;
+				//validacion
+				std::stringstream ss,ssPadre,ssPeso;
+				// ID
+				ss << info.at(0);
+				int id = 0;
+				ss >> id;
+				if(ss.good()) {
+					std::cout <<"Linea: "<<lineNumber<< " Id no es un numero valido, Programa terminado" << std::endl;
+					break;
+				}
+				else if(id == 0 && info.at(0)[0]!= '0') {
+					std::cout <<"Linea: "<<lineNumber<< " Id no es un numero valido, Programa terminado" << std::endl;
+					break;
+				}
+				else {
+					std::cout << id<< std::endl;
+				}
+
+				// ID PADRE
+				
+				ssPadre << info.at(4);
+				int idPadre = 0;
+				ssPadre >> idPadre;
+				if(ssPadre.good()) {
+					std::cout <<"Linea: "<<lineNumber<< " Id Padre no es un numero valido, Programa terminado" << std::endl;
+					break;
+				}
+				else if(idPadre == 0 && info.at(4)[0]!= '0') {
+					std::cout <<"Linea: "<<lineNumber<< " Id Padre no es un numero valido, Programa terminado" << std::endl;
+					break;
+				}
+				else {
+					std::cout << idPadre<< std::endl;
+				}
+
+
+
+				// Peso Relativo
+				ssPeso << info.at(3);
+				float peso = 0;
+				ssPeso >> peso;
+				if(ssPeso.good()) {
+					std::cout <<"Linea: "<<lineNumber<< " Peso relativo al padre debe ser un numero entre 0 y 1.0 , Programa terminado" << std::endl;
+					break;
+				}
+				else if(peso == 0 && info.at(3)[0]!= '0') {
+					std::cout <<"Linea: "<<lineNumber<< " Peso relativo al padre debe ser un numero entre 0 y 1.0 ,Programa terminado" << std::endl;
+					break;
+				}
+				else {
+					std::cout << peso<< std::endl;
+				}
+
+
+
+
+
+
+				lineNumber++;
+			}
+			stream.close();
+		} catch (...) {
+			stream.close();
+		}
+	}
+	else
+	{
+		std::cout << "No se puede leer el archivo" << std::endl << std::endl;
+	}
+
+	std::string in;
+	std::cin>> in;
+
 	// construir representacion en jerarqu'ia
 	// recorrer todo el archivo, decidir maximo y minimo volumen
 	//construir los widgets con tamano adecuado
@@ -32,8 +143,8 @@ void leerXml(std::string fileName){
 }
 int main()
 {
-
-	osgViewer::Viewer viewer;
+	 leerXml();
+/*	osgViewer::Viewer viewer;
 	ref_ptr<osg::Group> root = new osg::Group(); // root 
 	ref_ptr<Widget> elemento=WidgetFactory::nuevoWidget("Seres vivos",osg::Vec4(0,0,0,300.0f),ESFERA); // seres vivos
 	ref_ptr<Widget> elemento2=WidgetFactory::nuevoWidget("Celulas Eucariontas",osg::Vec4(0,0,0,50),ESFERA);
@@ -51,7 +162,7 @@ int main()
 	elemento31->cambiarPosicion(-5,0,0);
 	elemento32->cambiarPosicion(0,0,0);
 	elemento33->cambiarPosicion(5,0,0);
-	*/
+	///
 
 	std::vector<ref_ptr<osg::Node>> hijos3;
 	std::vector<ref_ptr<osg::Node>> hijos;
@@ -93,7 +204,7 @@ int main()
 	{
 		viewer.frame();
 	}
-
+	*/
 	return 0;
 }
 

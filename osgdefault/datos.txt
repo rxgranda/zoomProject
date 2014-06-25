@@ -1,0 +1,16 @@
+# identificador ;; nombreGrupo ;; detalle ;; peso relativo al padre ;;padre            --Formato de lectura
+# 
+#Nodo global= id=1, padre=0        peso relativo al padre= representa la importancia relativa al padre 0.8= 80% ; 1.0= en caso de que exista solo un hijo
+#	Ejemplo:
+# 1;;Seres Vivos;;Numero de muestras= 123541;;-1;;0           padre=0 nodo raiz, peso relativo no existe=-1
+# 2;;Procariontas;;Numero de muestras= 120000;;0.8;;1
+# 3;;Eurocariontas;;Numero de muestras= 3541;;0.2;;1
+# 4;;Virus;;Numero de muestras= 60000;;0.5;;2
+# 5;;Cianofitas;;Numero de muestras= 60000;;0.5;;2
+#
+#
+1;;Seres Vivos;;Numero de muestras= 123541;;0;;0
+2;;Procariontas;;Numero de muestras= 120000;;0.8;;1
+3;;Eurocariontas;;Numero de muestras= 3541;;0.2;;1
+4;;Virus;;Numero de muestras= 60000;;0.5;;2
+5;;Cianofitas;;Numero de muestras= 60000;;0.5;;2

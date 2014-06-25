@@ -66,9 +66,9 @@ Esfera::Esfera(std::string nombre, int x, int y, int z, int radio):Widget(nombre
 //	lod->addChild( geode1, FLT_MIN, radio );
 	lod->addChild( geode1, FLT_MIN, radio*1.2 );
 	lod->addChild( geode2, radio*1.2,radio*3);
-	lod->addChild( geode3, radio*3, radio*5);
-	lod->addChild( geode4,radio*5, radio*7);
-	lod->addChild( geode5,radio*7, radio*9);
+	lod->addChild( geode3, radio*3, radio*4);
+	lod->addChild( geode4,radio*4, radio*6);
+	lod->addChild( geode5,radio*6, radio*9);
 	lod->addChild( geode6,radio*9, radio*11);
 	lod->addChild( widgetGeode, radio*11, FLT_MAX );
 	
@@ -83,6 +83,9 @@ Esfera::Esfera(std::string nombre, int x, int y, int z, int radio):Widget(nombre
 	transparencia(geode2);
 	transparencia(geode3);
 	transparencia(geode4);
+	transparencia(geode5);
+	transparencia(geode6);
+
 	this->widgetXForm->removeChild(widgetGeode);
 	this->widgetXForm->addChild(lod);
 	
